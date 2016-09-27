@@ -101,6 +101,7 @@ public class PersonInfoActivity extends Activity implements OnClickListener{
                 alert.show();
                 Window window=alert.getWindow();
                 window.setContentView(R.layout.select_picture_layout);
+                window.setWindowAnimations(R.style.dialog_anim);
                 Button tuku= (Button) window.findViewById(R.id.id_select_tuku);
                 Button camera= (Button) window.findViewById(R.id.id_select_photo);
 
@@ -384,8 +385,6 @@ public class PersonInfoActivity extends Activity implements OnClickListener{
                 finish();
 			}
 		});
-
-
 	}
 
     private void uploadIcon() {
@@ -418,11 +417,6 @@ public class PersonInfoActivity extends Activity implements OnClickListener{
                     System.out.println("头像上传失败");
                 }
             });
-
-//            System.out.println(bmobUrl);
-
         }
-
     }
-
 }
