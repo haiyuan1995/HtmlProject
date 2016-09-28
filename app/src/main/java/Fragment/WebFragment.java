@@ -49,7 +49,7 @@ public class WebFragment extends Fragment {
                 view.loadUrl(url);
                 return true;
             }
-            /**404错误处理*/
+            /**错误处理*/
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 view.stopLoading();
@@ -118,6 +118,7 @@ public class WebFragment extends Fragment {
                     case MotionEvent.ACTION_MOVE:
                         MyViewPager.mIsTouching = true;
                         touchTime=System.currentTimeMillis();
+                        handler.removeCallbacks(runnable);
                         Log.i("is_touch","webview:" + "正在触摸");
 
                         break;
@@ -132,17 +133,16 @@ public class WebFragment extends Fragment {
                                 if (notouchTime-touchTime<15000) {
                                     notouchTime=System.currentTimeMillis();
                                     Log.i("handler","handler执行中"+String.valueOf(notouchTime-touchTime));
-                                    handler.postDelayed(this, 1000);
                                 }else{
                                     MyViewPager.mIsTouching = false;//没有触摸
                                     Log.i("touch=false","webview:" + "没有触摸,15秒过去了");
-                                    handler.post(runnable);
                                 }
+                                handler.postDelayed(runnable,1000);
                             }
                         };
+                        handler.post(runnable);//handler循环执行
                         break;
                 }
-                handler.post(runnable);//1秒执行一次
                 return false;
             }
 
