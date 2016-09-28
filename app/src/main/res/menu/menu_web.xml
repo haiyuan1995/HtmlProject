@@ -6,11 +6,13 @@
     <item android:id="@+id/action_anim"
         android:orderInCategory="100"
         android:title="切换效果"
+        android:icon="@drawable/ic_xiaoguo_black_24dp"
         app:showAsAction="collapseActionView"
         tools:ignore="AppCompatResource" />
     <item android:id="@+id/action_comment"
         android:orderInCategory="100"
         android:title="评论"
+        android:icon="@drawable/ic_comment_black_24dp"
         app:showAsAction="collapseActionView"
         tools:ignore="AppCompatResource" />
 
