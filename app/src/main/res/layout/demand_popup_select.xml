@@ -41,9 +41,10 @@
 
         <ImageView
             android:id="@+id/iv_cancel"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="end"
+            android:layout_margin="5dp"
             android:background="@mipmap/cancel_icon"
             android:layout_alignTop="@+id/linearLayout6"
             android:layout_alignEnd="@+id/linearLayout6" />
