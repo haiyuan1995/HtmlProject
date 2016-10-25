@@ -1,4 +1,4 @@
-package StartActivityAnim;
+package startactivityanim;
 
 import android.annotation.SuppressLint;
 import android.support.v4.view.ViewPager.PageTransformer;

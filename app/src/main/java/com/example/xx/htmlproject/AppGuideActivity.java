@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import App.MyActivityStackManager;
-import StartActivityAnim.DepthPageTransformer;
+import app.MyActivityStackManager;
+import startactivityanim.DepthPageTransformer;
 /***
  * 引导界面
  * */
@@ -105,7 +105,7 @@ public class AppGuideActivity extends Activity {
 				return mImgIds.length;
 			}
 		});
-		mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+		mViewPager.addOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int position) {

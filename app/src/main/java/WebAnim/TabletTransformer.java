@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package WebAnim;
+package webanim;
 
 import android.graphics.Camera;
 import android.graphics.Matrix;

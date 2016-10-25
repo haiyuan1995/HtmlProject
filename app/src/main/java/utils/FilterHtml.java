@@ -7,7 +7,7 @@ public class FilterHtml {
     /**
      * 基本功能：过滤所有以"<"开头以">"结尾的标签
      *
-     * @param str
+     * @param str 需要过滤的文本
      * @return String
      */
     public static String filterHtml(String str) {

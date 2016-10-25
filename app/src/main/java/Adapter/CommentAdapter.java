@@ -1,4 +1,4 @@
-package Adapter;
+package adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,7 +17,7 @@ import com.example.xx.htmlproject.R;
 
 import java.util.List;
 
-import Data.Comment;
+import data.Comment;
 
 /**
  * 评论界面的适配器
@@ -98,7 +98,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         private ImageView sex;
         private RecyItemOnclick recyItemOnclick;
 
-        public MyViewHolder(View itemView,RecyItemOnclick recyItemOnclick) {
+        MyViewHolder(View itemView, RecyItemOnclick recyItemOnclick) {
             super(itemView);
             imageView= (ImageView) itemView.findViewById(R.id.id_comment_item_imageview);
             nick= (TextView) itemView.findViewById(R.id.id_comment_item_nick);
@@ -123,7 +123,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
 
     private BitmapImageViewTarget setRoundedImage(final ImageView imageView)
     {
-        BitmapImageViewTarget bitmapImageViewTarget=new BitmapImageViewTarget(imageView)
+        return new BitmapImageViewTarget(imageView)
         {
             @Override
             protected void setResource(Bitmap resource) {
@@ -132,6 +132,5 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                 imageView.setImageDrawable(roundedBitmapDrawable);
             }
         };
-        return bitmapImageViewTarget;
     }
 }

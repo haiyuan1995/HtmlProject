@@ -1,4 +1,4 @@
-package Adapter;
+package adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -46,8 +46,7 @@ public class LeftMenuAdapter extends   RecyclerView.Adapter<LeftMenuAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= layoutInflater.inflate(R.layout.left_menu_item_layout,parent,false);
-        MyViewHolder myViewHolder=new MyViewHolder(view,recyItemOnclick);
-        return myViewHolder;
+        return new MyViewHolder(view,recyItemOnclick);
     }
 
     @Override
@@ -130,7 +129,7 @@ public class LeftMenuAdapter extends   RecyclerView.Adapter<LeftMenuAdapter.MyVi
         private ImageView imageView;
         private TextView textView;
         private RecyItemOnclick recyItemOnclick;
-        public MyViewHolder(View itemView,RecyItemOnclick recyItemOnclick) {
+        MyViewHolder(View itemView, RecyItemOnclick recyItemOnclick) {
             super(itemView);
             imageView= (ImageView) itemView.findViewById(R.id.id_left_menu_item_imageview);
             textView= (TextView) itemView.findViewById(R.id.id_left_menu_item_textview);

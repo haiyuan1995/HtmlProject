@@ -1,4 +1,4 @@
-package Adapter;
+package adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -59,7 +59,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         TextView tv_news_item_title;
         ImageView iv_news_item_image;
         RecyItemOnclick recyItemOnclick;
-        public MyViewHolder(View itemView,RecyItemOnclick recyItemOnclick) {
+        MyViewHolder(View itemView, RecyItemOnclick recyItemOnclick) {
             super(itemView);
             tv_news_item_title= (TextView) itemView.findViewById(R.id.id_news_item_title);
             iv_news_item_image= (ImageView) itemView.findViewById(R.id.id_news_item_image);

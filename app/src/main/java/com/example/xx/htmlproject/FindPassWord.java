@@ -1,10 +1,5 @@
 package com.example.xx.htmlproject;
 
-import App.MyActivityStackManager;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.listener.ResetPasswordByEmailListener;
-import utils.HideKeyBoard;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -13,13 +8,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
+import app.MyActivityStackManager;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.listener.ResetPasswordByEmailListener;
+import utils.HideKeyBoard;
+
 public class FindPassWord extends Activity implements OnClickListener{
 
-	private CardView btn_Reset_ok;
-
 	private EditText et_reset_email;
-
-	private String reset_email;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +35,7 @@ public class FindPassWord extends Activity implements OnClickListener{
 
 	private void init() {
 		// TODO Auto-generated method stub
-		btn_Reset_ok= (CardView) findViewById(R.id.btn_reset_ok);
+		CardView btn_Reset_ok = (CardView) findViewById(R.id.btn_reset_ok);
 		et_reset_email=(EditText) findViewById(R.id.et_reset_email);
 
 
@@ -60,9 +56,9 @@ public class FindPassWord extends Activity implements OnClickListener{
 		{
 
 		case R.id.btn_reset_ok:
-			reset_email=et_reset_email.getText().toString().trim();
+			String reset_email = et_reset_email.getText().toString().trim();
 
-			if(reset_email.equals("")||reset_email.length()==0)
+			if(reset_email.equals("")|| reset_email.length()==0)
 			{
 				Snackbar.make(v,"请填写你的邮箱!",Snackbar.LENGTH_LONG).show();
 				return;

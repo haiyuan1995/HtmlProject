@@ -20,25 +20,22 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import Adapter.SearchNewsPaperResultAdapter;
-import App.HtmlURL;
-import App.MyActivityStackManager;
-import App.MyApplication;
-import GsonBean.SearchData;
-import GsonBean.SearchPages;
-import RecycleViewAnimUtils.ScaleInAnimatorAdapter;
+import adapter.SearchNewsPaperResultAdapter;
+import app.HtmlURL;
+import app.MyActivityStackManager;
+import app.MyApplication;
+import gsonbean.SearchData;
+import gsonbean.SearchPages;
+import recycleviewanimutils.ScaleInAnimatorAdapter;
 import utils.FilterHtml;
 
 /**
  * 搜索结果界面
  */
 public class SearchNewsPaperResultActivity extends AppCompatActivity implements SearchNewsPaperResultAdapter.RecyItemOnclick{
-    private String name;
     private String searchURL;
     private RequestQueue requestQueue;
     private RecyclerView recyclerView;
-    private Toolbar toolbar;
-    private SearchNewsPaperResultAdapter searchNewsPaperResultAdapter;
 
     private ArrayList<SearchData> listData;
 
@@ -52,23 +49,28 @@ public class SearchNewsPaperResultActivity extends AppCompatActivity implements 
 
 
         String activity = getIntent().getExtras().getString("activity");
-        if (activity.equals("SearchActivity"))
-        {
-            searchURL=getIntent().getExtras().getString("SEARCH_URL");
-        }else if (activity.equals("SearchAllNewsPaperActivity")){
-            name=getIntent().getExtras().getString("NAME");
-            if (name!=null) {
-                if (!name.isEmpty()) {
-                    searchURL = HtmlURL.SEARCH_NEWS_PAPER_URL + "?" + "paperoffice=" + name;
-                }
-            }
-        }else if(activity.equals("MainActivity"))
-        {
-            name=getIntent().getExtras().getString("NAME");
-            if (name!=null) {
-                if (!name.isEmpty()) {
-                    searchURL = HtmlURL.SEARCH_NEWS_PAPER_URL + "?" + "paperoffice=" + name;
-                }
+        String name;
+        if (activity != null) {
+            switch (activity) {
+                case "SearchActivity":
+                    searchURL = getIntent().getExtras().getString("SEARCH_URL");
+                    break;
+                case "SearchAllNewsPaperActivity":
+                    name = getIntent().getExtras().getString("NAME");
+                    if (name != null) {
+                        if (!name.isEmpty()) {
+                            searchURL = HtmlURL.SEARCH_NEWS_PAPER_URL + "?" + "paperoffice=" + name;
+                        }
+                    }
+                    break;
+                case "MainActivity":
+                    name = getIntent().getExtras().getString("NAME");
+                    if (name != null) {
+                        if (!name.isEmpty()) {
+                            searchURL = HtmlURL.SEARCH_NEWS_PAPER_URL + "?" + "paperoffice=" + name;
+                        }
+                    }
+                    break;
             }
         }
 
@@ -83,8 +85,8 @@ public class SearchNewsPaperResultActivity extends AppCompatActivity implements 
     }
 
     private void initToolbar() {
-        toolbar= (Toolbar) findViewById(R.id.id_toolbar);
-        if (toolbar!=null) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
+        if (toolbar !=null) {
             toolbar.setTitle("返回");
             toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
             toolbar.setNavigationIcon(R.drawable.back);
@@ -127,7 +129,7 @@ public class SearchNewsPaperResultActivity extends AppCompatActivity implements 
         {
             Snackbar.make(recyclerView,"抱歉，查询不到报纸!",Snackbar.LENGTH_SHORT).show();
         }
-        searchNewsPaperResultAdapter=new SearchNewsPaperResultAdapter(this,searchPages);
+        SearchNewsPaperResultAdapter searchNewsPaperResultAdapter = new SearchNewsPaperResultAdapter(this, searchPages);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         ScaleInAnimatorAdapter scaleInAnimatorAdapter=new ScaleInAnimatorAdapter(searchNewsPaperResultAdapter,recyclerView);//设置adapter动画

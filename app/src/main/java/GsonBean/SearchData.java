@@ -1,4 +1,4 @@
-package GsonBean;
+package gsonbean;
 
 /**
  * 搜索数据接收类

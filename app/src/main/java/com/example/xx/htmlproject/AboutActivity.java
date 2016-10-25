@@ -7,13 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import App.MyActivityStackManager;
+import app.MyActivityStackManager;
 
 /**
  * 关于内容界面
  */
 public class AboutActivity extends AppCompatActivity {
-    private Toolbar toolbar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,16 +22,19 @@ public class AboutActivity extends AppCompatActivity {
         MyActivityStackManager myActivityStackManager=MyActivityStackManager.getInstance();
         myActivityStackManager.addActivity(AboutActivity.this);
 
-        toolbar= (Toolbar) findViewById(R.id.id_about_toolbar);
-        toolbar.setTitle("关于");
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_about_toolbar);
+        if (toolbar != null) {
+            toolbar.setTitle("关于");
+            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.back);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        }
+
     }
 }

@@ -41,15 +41,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import Adapter.LeftMenuAdapter;
-import Adapter.MainAdapter;
-import App.HtmlURL;
-import App.MyActivityStackManager;
-import App.MyApplication;
-import CustomView.LoadingView.ShapeLoadingDialog;
-import GsonBean.NewsPaperTypes;
-import GsonBean.TypeData;
-import RecycleViewAnimUtils.AlphaAnimatorAdapter;
+import adapter.LeftMenuAdapter;
+import adapter.MainAdapter;
+import app.HtmlURL;
+import app.MyActivityStackManager;
+import app.MyApplication;
+import customview.LoadingView.ShapeLoadingDialog;
+import gsonbean.NewsPaperTypes;
+import gsonbean.TypeData;
+import recycleviewanimutils.AlphaAnimatorAdapter;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import utils.FilterHtml;
@@ -67,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
 
     private DrawerLayout mDrawerLayout;
 
-    private MainAdapter mMainAdapter;
-    private ReboundScrollView mReboundScrollView;
     private ImageCycleView mImageCycleView;
 
     private TextView tv_toolbar_title;
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
     private TextView tv_PMorAM;
 
     private ArrayList<TypeData> typeDatas;
-    private ArrayList<String> listurl ;//图片URL地址集合
 
     private long EXIT_TIME=0;//点击两个返回键之间的时间
 
@@ -150,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
         mMenuRecyclerView= (RecyclerView) findViewById(R.id.id_left_menu_recyclerview);
         imageView= (ImageView) findViewById(R.id.id_left_menu_imageview);
 
-        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
 
@@ -291,12 +288,12 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
 
         if (BmobUser.getCurrentUser(MainActivity.this) != null) {
 
-            BmobUser UserContent = BmobUser.getCurrentUser(MainActivity.this);
+//            BmobUser UserContent = BmobUser.getCurrentUser(MainActivity.this);
 
-            tv_name.setText((String)UserContent.getObjectByKey(MainActivity.this,"nick"));
-            tv_qianming.setText((String)UserContent.getObjectByKey(MainActivity.this, "qianming"));
+            tv_name.setText((String) BmobUser.getObjectByKey(MainActivity.this,"nick"));
+            tv_qianming.setText((String) BmobUser.getObjectByKey(MainActivity.this, "qianming"));
 
-            String imageurl= (String) UserContent.getObjectByKey(MainActivity.this,"iconUrl");//头像图片地址
+            String imageurl= (String) BmobUser.getObjectByKey(MainActivity.this,"iconUrl");//头像图片地址
 
             if (imageurl==null||imageurl.isEmpty())
             {
@@ -312,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
      * */
     private BitmapImageViewTarget setRoundedImage(final ImageView imageView)
     {
-        BitmapImageViewTarget bitmapImageViewTarget=new BitmapImageViewTarget(imageView)
+        return new BitmapImageViewTarget(imageView)
         {
             @Override
             protected void setResource(Bitmap resource) {
@@ -321,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
                 imageView.setImageDrawable(roundedBitmapDrawable);
             }
         };
-        return bitmapImageViewTarget;
     }
 
 
@@ -334,39 +330,40 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
             final AlertDialog alert=new AlertDialog.Builder(this).create();
             alert.show();
             Window window=alert.getWindow();
-            window.setContentView(R.layout.alert_dialog_layout);
-            window.setWindowAnimations(R.style.dialog_anim);
-            Button zhuxiao= (Button) window.findViewById(R.id.id_dialog_zhuxiao);
-            Button cancle= (Button) window.findViewById(R.id.id_dialog_quxiao);
+            if (window != null) {
+                window.setContentView(R.layout.alert_dialog_layout);
+                window.setWindowAnimations(R.style.dialog_anim);
+                Button zhuxiao = (Button) window.findViewById(R.id.id_dialog_zhuxiao);
+                Button cancle = (Button) window.findViewById(R.id.id_dialog_quxiao);
 
-            zhuxiao.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                    BmobUser.logOut(MainActivity.this);   //清除缓存用户对象
-                    tv_name.setText("");
-                    tv_qianming.setText("");
+                zhuxiao.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    if (BmobUser.getCurrentUser(MainActivity.this)==null)
-                    {
-                        imageView.setImageResource(R.mipmap.icon_user);
-                    }
-                    Snackbar.make(view,"账户已注销!",Snackbar.LENGTH_LONG).show();
+                        BmobUser.logOut(MainActivity.this);   //清除缓存用户对象
+                        tv_name.setText("");
+                        tv_qianming.setText("");
+
+                        if (BmobUser.getCurrentUser(MainActivity.this) == null) {
+                            imageView.setImageResource(R.mipmap.icon_user);
+                        }
+                        Snackbar.make(view, "账户已注销!", Snackbar.LENGTH_LONG).show();
 //                    Toast.makeText(MainActivity.this,"账户已注销!",Toast.LENGTH_LONG).show();
 
-                    leftMenuAdapter.noCurrentUser();//没有用户对象
-                    alert.dismiss();
-                }
-            });
+                        leftMenuAdapter.noCurrentUser();//没有用户对象
+                        alert.dismiss();
+                    }
+                });
 
-            //  取消操作
-            cancle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alert.dismiss();
-                }
-            });
-
+                //  取消操作
+                cancle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
+                    }
+                });
+            }
         }
     }
 
@@ -412,7 +409,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示侧滑菜单的图标
             ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             toggle.syncState();//设置为三横的图标
-            mDrawerLayout.setDrawerListener(toggle);
+            mDrawerLayout.addDrawerListener(toggle);
         }
     }
 
@@ -430,8 +427,10 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
         tv_PMorAM= (TextView) findViewById(R.id.id_main_PMorAM);
 
         mImageCycleView= (ImageCycleView) findViewById(R.id.id_main_vierpager);//首页轮播控件
-        mReboundScrollView= (ReboundScrollView) findViewById(R.id.id_main_scrollview);
-        mReboundScrollView.smoothScrollTo(0,0);//将scrollview起始位置设为顶部
+        ReboundScrollView mReboundScrollView = (ReboundScrollView) findViewById(R.id.id_main_scrollview);
+        if (mReboundScrollView != null) {
+            mReboundScrollView.smoothScrollTo(0,0);//将scrollview起始位置设为顶部
+        }
 
         /**
          * 设置时间的显示
@@ -481,8 +480,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
     private void initAdapter(NewsPaperTypes newsPaperTypes) {
 
 
-
-        mMainAdapter = new MainAdapter(this,newsPaperTypes);
+        MainAdapter mMainAdapter = new MainAdapter(this, newsPaperTypes);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -500,7 +498,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
     }
 
     private void VolleyGetBanner() {
-        listurl= new ArrayList<>();
+        ArrayList<String> listurl = new ArrayList<>();
         listurl.add("http://image2.sina.com.cn/dy/c/p/2007-01-18/U1565P1T1D12074936F21DT20070118224118.jpg");
         listurl.add("http://www.wokeji.com/shouye/shipin/201605/W020160524632769348038.png");
         listurl.add("http://www.ecns.cn/hd/2016/05/25/1d0dccb881dd49289ba931e41de81665.jpg");
@@ -608,7 +606,7 @@ public class MainActivity extends AppCompatActivity implements MainAdapter.RecyI
                     m.invoke(menu, true);
                 }
                 catch(Exception e){
-
+                    e.printStackTrace();
                 }
             }
         }

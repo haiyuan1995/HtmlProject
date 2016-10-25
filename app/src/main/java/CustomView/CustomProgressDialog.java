@@ -1,5 +1,5 @@
 	
-package CustomView;
+package customview;
 
 
 import android.app.Dialog;

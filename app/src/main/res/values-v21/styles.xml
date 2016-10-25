@@ -28,6 +28,11 @@
         <item name="android:windowExitAnimation">@anim/dialog_out</item>
     </style>
 
+    <!-- 切换效果dialog动画-->
+    <style name="dialog_menu_anim" >
+        <item name="android:windowEnterAnimation">@anim/dialog_menu_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_menu_out</item>
+    </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@android:color/white</item>

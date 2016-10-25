@@ -16,7 +16,7 @@
 
 /***第三方动画文件*/
 
-package WebAnim;
+package webanim;
 
 import android.support.v4.view.ViewPager.PageTransformer;
 import android.view.View;

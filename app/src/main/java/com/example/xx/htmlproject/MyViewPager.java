@@ -14,12 +14,12 @@ import java.util.concurrent.TimeUnit;
 public class MyViewPager extends ViewPager{
 
 
-    /**
-     * 接口
-     */
-    public interface LifeCycle{
-
-    }
+//    /**
+//     * 接口
+//     */
+//    public interface LifeCycle{
+//
+//    }
 
     /**
      * 恢复
@@ -135,7 +135,7 @@ public class MyViewPager extends ViewPager{
      */
     private void shutdownTimer() {
         //定时器不为空且定时器没有关闭时
-        if (mCarouselTimer != null && mCarouselTimer.isShutdown() == false){
+        if (mCarouselTimer != null && !mCarouselTimer.isShutdown()){
             //关闭定时器
             mCarouselTimer.shutdown();
         }

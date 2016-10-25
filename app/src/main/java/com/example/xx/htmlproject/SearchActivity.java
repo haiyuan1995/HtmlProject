@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,27 +30,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Adapter.SearchAdapter;
-import App.HtmlURL;
-import App.MyActivityStackManager;
-import App.MyApplication;
-import GsonBean.NewsPaper;
-import GsonBean.NewsPaperTypes;
+import adapter.SearchAdapter;
+import app.HtmlURL;
+import app.MyActivityStackManager;
+import app.MyApplication;
+import gsonbean.NewsPaper;
+import gsonbean.NewsPaperTypes;
 import utils.FilterHtml;
 
 /**
  * 搜索界面
  */
 public class SearchActivity extends AppCompatActivity implements SearchAdapter.RecyItemOnclick{
-    private Toolbar toolbar;
     private NiceSpinner spinner_type,spinner_baokan;
-    //    private ArrayList<TypeData> type_list;
-    private CalendarView calendarView;
     private String TYPE="";//spinner选择的报刊类型
     private String NAME="";//spinner选择的报刊名字
     private String DATE="";//calendarView选择的报刊日期
     private RequestQueue requestQueue;
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,73 +69,76 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.R
         spinner_baokan= (NiceSpinner) findViewById(R.id.id_search_spinner_baokan);
 
         SimpleDateFormat timeFormat=new SimpleDateFormat("yyyy-MM-dd");//吧date数据转化为特定格式日期
-        String defaultDate=timeFormat.format(new Date());//默认为当前日期
-        DATE=defaultDate;
+        DATE= timeFormat.format(new Date());
 
 
-        fab= (FloatingActionButton) findViewById(R.id.id_search_fab);//浮动按钮
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view,"搜索中...",Snackbar.LENGTH_SHORT).setAction("隐藏", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        //留空，不用调用dismiss ,调用了反而布局有问题
-                    }
-                }).show();
-
-                if (!TYPE.isEmpty() && !NAME.isEmpty() && !DATE.isEmpty()) {
-                    final String searchURL = HtmlURL.SEARCH_NEWS_PAPER_URL + "?" + "paperoffice=" + NAME + "&" + "date=" + DATE;
-                    //查询报刊请求
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //void
-                            Intent intent = new Intent(SearchActivity.this, SearchNewsPaperResultActivity.class);
-                            intent.putExtra("SEARCH_URL", searchURL);
-                            intent.putExtra("activity", "SearchActivity");
-                            startActivity(intent);
-                        }
-                    },1000);
-
-                }
-                else
-                {
-//                        Toast.makeText(SearchActivity.this,"条件不足无法搜索！",Toast.LENGTH_LONG).show();
-                    Snackbar.make(view,"条件不足无法搜索!",Snackbar.LENGTH_LONG).setAction("确定", new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.id_search_fab);
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view,"搜索中...",Snackbar.LENGTH_SHORT).setAction("隐藏", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            //留空，不用调用dismiss ,调用了反而布局有问题
                         }
-                    })
-                            .show();
+                    }).show();
+
+                    if (!TYPE.isEmpty() && !NAME.isEmpty() && !DATE.isEmpty()) {
+                        final String searchURL = HtmlURL.SEARCH_NEWS_PAPER_URL + "?" + "paperoffice=" + NAME + "&" + "date=" + DATE;
+                        //查询报刊请求
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                //void
+                                Intent intent = new Intent(SearchActivity.this, SearchNewsPaperResultActivity.class);
+                                intent.putExtra("SEARCH_URL", searchURL);
+                                intent.putExtra("activity", "SearchActivity");
+                                startActivity(intent);
+                            }
+                        },1000);
+
+                    }
+                    else
+                    {
+    //                        Toast.makeText(SearchActivity.this,"条件不足无法搜索！",Toast.LENGTH_LONG).show();
+                        Snackbar.make(view,"条件不足无法搜索!",Snackbar.LENGTH_LONG).setAction("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        })
+                                .show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
 
     private void initCalendarView() {
-        calendarView= (CalendarView) findViewById(R.id.id_search_calendarView);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int dayOfMonth) {
-                String dateString = year + "-" + (1+month) + "-" + dayOfMonth ;//月份为0-11
+        CalendarView calendarView = (CalendarView) findViewById(R.id.id_search_calendarView);
+        if (calendarView != null) {
+            calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                @Override
+                public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
+                    String dateString = year + "-" + (1+month) + "-" + dayOfMonth ;//月份为0-11
 
-                SimpleDateFormat stringForTime=new SimpleDateFormat("yyyy-MM-dd");//吧数据源中的日期字符串转换为Date数据
-                Date date=null;
-                try {
-                    date=stringForTime.parse(dateString);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    SimpleDateFormat stringForTime=new SimpleDateFormat("yyyy-MM-dd");//吧数据源中的日期字符串转换为Date数据
+                    Date date=null;
+                    try {
+                        date=stringForTime.parse(dateString);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                    SimpleDateFormat timeFormat=new SimpleDateFormat("yyyy-MM-dd");//吧date数据转化为特定格式日期
+                    String time=timeFormat.format(date);
+                    DATE=time;
+                    Toast.makeText(getApplicationContext(), time, Toast.LENGTH_LONG).show();
                 }
-
-                SimpleDateFormat timeFormat=new SimpleDateFormat("yyyy-MM-dd");//吧date数据转化为特定格式日期
-                String time=timeFormat.format(date);
-                DATE=time;
-                Toast.makeText(getApplicationContext(), time, Toast.LENGTH_LONG).show();
-            }
-        });
+            });
+        }
 
     }
 
@@ -211,13 +211,13 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.R
                 flag=true;
             }
         }
-        if (flag==false)
+        if (!flag)
         {
             listBaokan.add("该类型暂无报刊...");
         }
 
 
-        ArrayAdapter baokan_adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listBaokan);
+        ArrayAdapter baokan_adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,listBaokan);
         baokan_adapter.setDropDownViewResource(R.layout.spinner_list_item);
         spinner_baokan.setTintColor(R.color.colorPrimaryDark);
         spinner_baokan.setAdapter(baokan_adapter);
@@ -247,7 +247,7 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.R
             type_string_list.add(newsPaperTypes.getData().get(i).getPresstype());
         }
 
-        ArrayAdapter type_adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,type_string_list);
+        ArrayAdapter type_adapter=new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,type_string_list);
 
         type_adapter.setDropDownViewResource(R.layout.spinner_list_item);
 
@@ -281,17 +281,20 @@ public class SearchActivity extends AppCompatActivity implements SearchAdapter.R
     }
 
     private void initToolBar() {
-        toolbar= (Toolbar) findViewById(R.id.id_toolbar);
-        toolbar.setTitle("搜索");
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        toolbar.setNavigationIcon(R.drawable.back);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
+        if (toolbar != null) {
+            toolbar.setTitle("搜索");
+            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+            toolbar.setNavigationIcon(R.drawable.back);
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        }
+
     }
 
     @Override

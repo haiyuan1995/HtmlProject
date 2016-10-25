@@ -1,4 +1,4 @@
-package Adapter;
+package adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -39,8 +39,7 @@ public class SelectAnimDialogAdapter extends RecyclerView.Adapter<SelectAnimDial
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view=mLayoutInflater.inflate(R.layout.select_anim_dialog_item_layout,parent,false);//测试用card item layout
-        MyViewHolder myViewHolder=new MyViewHolder(view,recyitemonclick);
-        return myViewHolder;
+        return new MyViewHolder(view,recyitemonclick);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class SelectAnimDialogAdapter extends RecyclerView.Adapter<SelectAnimDial
         TextView tv_num;
         TextView tv_animName;
         RecyItemOnclick recyItemOnclick;
-        public MyViewHolder(View itemView,RecyItemOnclick recyItemOnclick) {
+        MyViewHolder(View itemView, RecyItemOnclick recyItemOnclick) {
             super(itemView);
             tv_num= (TextView) itemView.findViewById(R.id.tv_num);
             tv_animName= (TextView) itemView.findViewById(R.id.tv_anim);

@@ -1,4 +1,4 @@
-package Adapter;
+package adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +14,7 @@ import com.example.xx.htmlproject.R;
 
 import java.util.ArrayList;
 
-import GsonBean.SearchPages;
+import gsonbean.SearchPages;
 
 /**
  * 报刊内容数据的适配器

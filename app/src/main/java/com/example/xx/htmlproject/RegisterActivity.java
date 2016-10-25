@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-import App.MyActivityStackManager;
-import CustomView.CustomProgressDialog;
+import app.MyActivityStackManager;
+import customview.CustomProgressDialog;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;
 

@@ -20,23 +20,21 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import Adapter.SearchAllNewsPaperAdapter;
-import App.HtmlURL;
-import App.MyActivityStackManager;
-import App.MyApplication;
-import CustomView.LoadingView.ShapeLoadingDialog;
-import GsonBean.NewsData;
-import GsonBean.NewsPaper;
+import adapter.SearchAllNewsPaperAdapter;
+import app.HtmlURL;
+import app.MyActivityStackManager;
+import app.MyApplication;
+import customview.LoadingView.ShapeLoadingDialog;
+import gsonbean.NewsData;
+import gsonbean.NewsPaper;
 import utils.FilterHtml;
-import RecycleViewAnimUtils.ScaleInAnimatorAdapter;
+import recycleviewanimutils.ScaleInAnimatorAdapter;
 
 /**
  * 报刊栏相关代码，搜索全部报刊
  */
 public class SearchAllNewsPaperActivity extends AppCompatActivity implements SearchAllNewsPaperAdapter.RecyItemOnclick{
     private RecyclerView recyclerView;
-    private Toolbar toolbar;
-    private SearchAllNewsPaperAdapter searchAllNewsPaperAdapter;
     private RequestQueue requestQueue;
 
     private ArrayList<NewsData> listData;
@@ -100,7 +98,7 @@ public class SearchAllNewsPaperActivity extends AppCompatActivity implements Sea
     }
 
     private void initAdapter(NewsPaper newsPaper) {
-        searchAllNewsPaperAdapter=new SearchAllNewsPaperAdapter(SearchAllNewsPaperActivity.this,newsPaper);
+        SearchAllNewsPaperAdapter searchAllNewsPaperAdapter = new SearchAllNewsPaperAdapter(SearchAllNewsPaperActivity.this, newsPaper);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         ScaleInAnimatorAdapter scaleInAnimatorAdapter=new ScaleInAnimatorAdapter(searchAllNewsPaperAdapter,recyclerView);//设置adapter动画
@@ -111,18 +109,21 @@ public class SearchAllNewsPaperActivity extends AppCompatActivity implements Sea
     }
 
     private void initToolbar() {
-        toolbar= (Toolbar) findViewById(R.id.id_toolbar);
-        toolbar.setTitle("报刊");
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        toolbar.setNavigationIcon(R.drawable.back);
-        setSupportActionBar(toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_toolbar);
+        if (toolbar != null) {
+            toolbar.setTitle("报刊");
+            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+            toolbar.setNavigationIcon(R.drawable.back);
+            setSupportActionBar(toolbar);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        }
+
     }
 
     private void initView() {

@@ -1,4 +1,4 @@
-package GsonBean;
+package gsonbean;
 
 /**
  * 报刊数据接收类

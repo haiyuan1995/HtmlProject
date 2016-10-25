@@ -23,11 +23,11 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
-import Adapter.NewsAdapter;
-import App.HtmlURL;
-import App.MyActivityStackManager;
-import App.MyApplication;
-import GsonBean.NewsPaper;
+import adapter.NewsAdapter;
+import app.HtmlURL;
+import app.MyActivityStackManager;
+import app.MyApplication;
+import gsonbean.NewsPaper;
 import utils.FilterHtml;
 
 /**
@@ -35,11 +35,8 @@ import utils.FilterHtml;
  */
 public class NewsActivity extends AppCompatActivity implements NewsAdapter.RecyItemOnclick{
     private List<String> mNews;
-    private NewsAdapter mNewsAdapter;
     private RecyclerView mRecyclerView;
-    private TextView toolbar_title;
     private List<String> LogoURL;
-    private FloatingActionButton fab;
     private String type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +58,7 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.RecyI
     private void initAdapter() {
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
 
-        mNewsAdapter=new NewsAdapter(this,mNews,LogoURL);
+        NewsAdapter mNewsAdapter = new NewsAdapter(this, mNews, LogoURL);
         mNewsAdapter.setRecyItemOnclick(NewsActivity.this);//为适配器设置点击监听
         mRecyclerView.setAdapter(mNewsAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());//为RecyclerView设置增加删除动画
@@ -69,25 +66,31 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.RecyI
 
     private void initToolbar() {
         Toolbar toolbar= (Toolbar) findViewById(R.id.id_toolbar);
-       toolbar_title= (TextView) findViewById(R.id.toolbar_title);
-        toolbar.setTitle(" ");
+        TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        if (toolbar != null) {
+            toolbar.setTitle(" ");
+            toolbar.setNavigationIcon(R.drawable.back);
+            setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(R.drawable.back);
-        setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
 
         //使用CollapsingToolbarLayout必须把title设置到CollapsingToolbarLayout上，设置到Toolbar上则不会显示
         CollapsingToolbarLayout mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        mCollapsingToolbarLayout.setTitle("选择报纸");
-        //通过CollapsingToolbarLayout修改字体颜色
-        mCollapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);//设置还没收缩时状态下字体颜色
-        mCollapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);//设置收缩后Toolbar上字体的颜色
+        if (mCollapsingToolbarLayout != null) {
+            mCollapsingToolbarLayout.setTitle("选择报纸");
+            //通过CollapsingToolbarLayout修改字体颜色
+            mCollapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);//设置还没收缩时状态下字体颜色
+            mCollapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);//设置收缩后Toolbar上字体的颜色
+        }
+
     }
     private void VolleyGetNewsPaper() {//得到全部报纸
         StringRequest stringRequest= new StringRequest(Request.Method.GET, HtmlURL.All_NEWS_PAPER_URL, new Response.Listener<String>() {
@@ -116,7 +119,7 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.RecyI
 
     private void initData(NewsPaper newsPaper) {
 
-         LogoURL = new ArrayList<String>();
+         LogoURL = new ArrayList<>();
 
         for (int i=0;i<newsPaper.getData().size();i++) {
             if (newsPaper.getData().get(i).getType().equals(type)) {
@@ -125,7 +128,7 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.RecyI
         }
 
 
-        mNews=new ArrayList<String>();
+        mNews=new ArrayList<>();
         for(int i=0;i<newsPaper.getData().size();i++)
         {
             if (newsPaper.getData().get(i).getType().equals(type))
@@ -139,14 +142,16 @@ public class NewsActivity extends AppCompatActivity implements NewsAdapter.RecyI
     private void initView()
     {
         mRecyclerView= (RecyclerView) findViewById(R.id.id_recycleView);
-        fab= (FloatingActionButton) findViewById(R.id.news_layout_fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.news_layout_fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (fab != null) {
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override

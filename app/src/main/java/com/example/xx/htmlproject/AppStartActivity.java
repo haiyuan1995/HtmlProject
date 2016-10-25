@@ -11,12 +11,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-/**
- * Created by XX on 2016/5/26.
- */
 
 public class AppStartActivity extends AppCompatActivity {
-    private ImageView imageView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +20,15 @@ public class AppStartActivity extends AppCompatActivity {
         boolean user_first=setting.getBoolean("FIRST",true);
         if (user_first)//第一次启动
         {
-            setting.edit().putBoolean("FIRST",false).commit();
+            setting.edit().putBoolean("FIRST",false).apply();
             startActivity(new Intent(AppStartActivity.this,AppGuideActivity.class));
             finish();
         }else {
             setContentView(R.layout.start_layout);
-            imageView = (ImageView) findViewById(R.id.start_imageView);
-            Glide.with(this).load(R.mipmap.start).animate(R.anim.hold).into(imageView);
+            ImageView imageView = (ImageView) findViewById(R.id.start_imageView);
+            if (imageView != null) {
+                Glide.with(this).load(R.mipmap.start).animate(R.anim.hold).into(imageView);
+            }
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

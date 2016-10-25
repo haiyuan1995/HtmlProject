@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 import cn.bmob.v3.BmobUser;
 

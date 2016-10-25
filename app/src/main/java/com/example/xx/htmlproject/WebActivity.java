@@ -10,9 +10,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -23,26 +25,26 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import Adapter.MyFragmentPagerAdapter;
-import Adapter.SelectAnimDialogAdapter;
-import App.MyActivityStackManager;
-import Fragment.WebFragment;
-import WebAnim.AccordionTransformer;
-import WebAnim.AlphaTransformer;
-import WebAnim.BackgroundToForegroundTransformer;
-import WebAnim.CubeInTransformer;
-import WebAnim.CubeOutTransformer;
-import WebAnim.DefaultTransformer;
-import WebAnim.ForegroundToBackgroundTransformer;
-import WebAnim.RotateDownTransformer;
-import WebAnim.RotateUpTransformer;
-import WebAnim.ScaleInOutTransformer;
-import WebAnim.StackTransformer;
-import WebAnim.TabletTransformer;
-import WebAnim.ZoomOutSlideTransformer;
-import WebAnim.ZoomOutTranformer;
-import StartActivityAnim.DepthPageTransformer;
-import StartActivityAnim.ZoomOutPageTransformer;
+import adapter.MyFragmentPagerAdapter;
+import adapter.SelectAnimDialogAdapter;
+import app.MyActivityStackManager;
+import fragment.WebFragment;
+import webanim.AccordionTransformer;
+import webanim.AlphaTransformer;
+import webanim.BackgroundToForegroundTransformer;
+import webanim.CubeInTransformer;
+import webanim.CubeOutTransformer;
+import webanim.DefaultTransformer;
+import webanim.ForegroundToBackgroundTransformer;
+import webanim.RotateDownTransformer;
+import webanim.RotateUpTransformer;
+import webanim.ScaleInOutTransformer;
+import webanim.StackTransformer;
+import webanim.TabletTransformer;
+import webanim.ZoomOutSlideTransformer;
+import webanim.ZoomOutTranformer;
+import startactivityanim.DepthPageTransformer;
+import startactivityanim.ZoomOutPageTransformer;
 import utils.ViewPagerScroller;
 
 /**
@@ -52,24 +54,16 @@ import utils.ViewPagerScroller;
 public class WebActivity extends AppCompatActivity {
 
     private MyViewPager viewPager;//自定义轮播控件
-    private List<Fragment> list;
-    /**
-     * 屏幕尺寸
-     */
-    private int mDensity;
     /**
      * 下标
      */
-    private  int Index = 0;
+//    private  int Index = 0;
 
     private List<String> URLList=new ArrayList<>();//HTML  URL地址集合
     private TextView title;
     private int POSITION;//判断点击的哪一页
-    private Toolbar toolbar;
 
     private String NEWSPAPER_ID;//用于判断评论所属报纸
-
-    private ImageView iv_cancel;
 
     @Override
     protected void onCreate(Bundle  icicle) {
@@ -95,6 +89,7 @@ public class WebActivity extends AppCompatActivity {
          * activity字符串是其他activity用intent跳转到当前activity时传的一个特殊值，用于判断是从哪个activity跳转的
          * *
          */
+
         String activity=getIntent().getExtras().get("activity").toString();
 
         if (activity.equals("NewsPagesActivity"))
@@ -109,13 +104,16 @@ public class WebActivity extends AppCompatActivity {
             NEWSPAPER_ID=getIntent().getExtras().getString("SHORTNAME")+getIntent().getExtras().getString("PAPERDATE");
         }
 
-        mDensity = getDensity();
+        /*
+      屏幕尺寸
+     */
+        int mDensity = getDensity();
         //绑定
         viewPager = (MyViewPager) findViewById(R.id.id_viewpager);
         /**
          * 通过Fragment作为ViewPager的数据源
          */
-        list = new ArrayList<>();
+        List<Fragment> list = new ArrayList<>();
         for(int i=0;i<URLList.size();i++) {
             list.add(WebFragment.newInstance(URLList.get(i), mDensity));
         }
@@ -138,7 +136,7 @@ public class WebActivity extends AppCompatActivity {
             title.setText("第 "+(POSITION+1)+" 版");
         }
 //
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -157,19 +155,22 @@ public class WebActivity extends AppCompatActivity {
     }
 
     private void initToolBar() {
-        toolbar= (Toolbar) findViewById(R.id.id_webactivity_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.id_webactivity_toolbar);
         title= (TextView) findViewById(R.id.id_web_title);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.back);
-        setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            toolbar.setTitle("");
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationIcon(R.drawable.back);
+            setSupportActionBar(toolbar);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        }
+
     }
 
 
@@ -190,7 +191,7 @@ public class WebActivity extends AppCompatActivity {
                     m.invoke(menu, true);
                 }
                 catch(Exception e){
-
+                    e.printStackTrace();
                 }
             }
         }
@@ -207,105 +208,111 @@ public class WebActivity extends AppCompatActivity {
             Intent intent=new Intent(WebActivity.this,CommentActivity.class);
             intent.putExtra("NEWSPAPER_ID",NEWSPAPER_ID);//报纸标识
             startActivity(intent);
-        }else if (id==R.id.action_anim)
-        {
-            final AlertDialog alert=new AlertDialog.Builder(this).create();
+        }else if (id==R.id.action_anim) {
+            final AlertDialog alert = new AlertDialog.Builder(this).create();
             alert.show();
-            Window window=alert.getWindow();
-            window.setContentView(R.layout.demand_popup_select);
-            window.setWindowAnimations(R.style.dialog_anim);
-            iv_cancel= (ImageView) window.findViewById(R.id.iv_cancel);
-            iv_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alert.dismiss();
-                }
-            });
-            RecyclerView recyclerView= (RecyclerView) window.findViewById(R.id.recyclerView);
-            final List<String> animNameList=new ArrayList<String>();
-            animNameList.add("平移");
-            animNameList.add("折叠平移");
-            animNameList.add("背景缩小");
-            animNameList.add("内立方体");
-            animNameList.add("立方体");
-            animNameList.add("背景上升");
-            animNameList.add("背景放大");
-            animNameList.add("向下旋转");
-            animNameList.add("向下旋转");
-            animNameList.add("比例缩放");
-            animNameList.add("堆叠");
-            animNameList.add("板面切换");
-            animNameList.add("缩放滑动");
-            animNameList.add("渐变");
-            animNameList.add("淡入淡出");
+            Window window = alert.getWindow();
+            if (window != null) {
+                window.setContentView(R.layout.demand_popup_select);
+                window.setGravity(Gravity.BOTTOM);//设置弹窗位置
+                WindowManager.LayoutParams params=window.getAttributes();
+                params.width= ViewGroup.LayoutParams.MATCH_PARENT;
+                params.height=ViewGroup.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(params);//调整窗口大小
 
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(WebActivity.this,LinearLayoutManager.VERTICAL,false));
-
-            SelectAnimDialogAdapter selectAnimDialogAdapter=new SelectAnimDialogAdapter(WebActivity.this, (ArrayList<String>) animNameList);
-
-            selectAnimDialogAdapter.setRecyItemOnclick(new SelectAnimDialogAdapter.RecyItemOnclick() {
-                @Override
-                public void onItemClick(View view, int postion) {
-
-                    switch (postion)
-                    {
-
-                        case 0:
-                            viewPager.setPageTransformer(true,new DefaultTransformer());
-                            break;
-                        case 1:
-                            viewPager.setPageTransformer(true,new AccordionTransformer());
-                            break;
-                        case 2:
-                            viewPager.setPageTransformer(true,new BackgroundToForegroundTransformer());
-                            break;
-                        case 3:
-                            viewPager.setPageTransformer(true,new CubeInTransformer());
-                            break;
-                        case 4:
-                            viewPager.setPageTransformer(true,new CubeOutTransformer());
-                            break;
-                        case 5:
-                            viewPager. setPageTransformer(true,new DepthPageTransformer());
-                            break;
-                        case 6:
-                            viewPager. setPageTransformer(true,new ForegroundToBackgroundTransformer());
-                            break;
-
-                        case 7:
-                            viewPager.setPageTransformer(true,new RotateDownTransformer());
-                            break;
-                        case 8:
-                            viewPager.setPageTransformer(true,new RotateUpTransformer());
-                            break;
-                        case 9:
-                            viewPager. setPageTransformer(true,new ScaleInOutTransformer());
-                            break;
-                        case 10:
-                            viewPager.setPageTransformer(true,new StackTransformer());
-                            break;
-                        case 11:
-                            viewPager.setPageTransformer(true,new TabletTransformer());
-                            break;
-                        case 12:
-                            viewPager. setPageTransformer(true,new ZoomOutSlideTransformer());
-                            break;
-                        case 13:
-                            viewPager. setPageTransformer(true,new ZoomOutPageTransformer());
-                            break;
-                        case 14:
-                            viewPager.setPageTransformer(true,new ZoomOutTranformer());
-                            break;
-                        case 15:
-                            viewPager.setPageTransformer(true,new AlphaTransformer());
-                            break;
+                window.setWindowAnimations(R.style.dialog_menu_anim);
+                ImageView iv_cancel = (ImageView) window.findViewById(R.id.iv_cancel);
+                iv_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alert.dismiss();
                     }
-                    Toast.makeText(WebActivity.this, animNameList.get(postion), Toast.LENGTH_LONG).show();
-                    alert.dismiss();
-                }
-            });
-            recyclerView.setAdapter(selectAnimDialogAdapter);
+                });
+                RecyclerView recyclerView = (RecyclerView) window.findViewById(R.id.recyclerView);
+                final List<String> animNameList = new ArrayList<>();
+                animNameList.add("平移");
+                animNameList.add("折叠平移");
+                animNameList.add("背景缩小");
+                animNameList.add("内立方体");
+                animNameList.add("立方体");
+                animNameList.add("背景上升");
+                animNameList.add("背景放大");
+                animNameList.add("向下旋转");
+                animNameList.add("向下旋转");
+                animNameList.add("比例缩放");
+                animNameList.add("堆叠");
+                animNameList.add("板面切换");
+                animNameList.add("缩放滑动");
+                animNameList.add("渐变");
+                animNameList.add("淡入淡出");
+
+
+                recyclerView.setLayoutManager(new LinearLayoutManager(WebActivity.this, LinearLayoutManager.VERTICAL, false));
+
+                SelectAnimDialogAdapter selectAnimDialogAdapter = new SelectAnimDialogAdapter(WebActivity.this, (ArrayList<String>) animNameList);
+
+                selectAnimDialogAdapter.setRecyItemOnclick(new SelectAnimDialogAdapter.RecyItemOnclick() {
+                    @Override
+                    public void onItemClick(View view, int postion) {
+
+                        switch (postion) {
+
+                            case 0:
+                                viewPager.setPageTransformer(true, new DefaultTransformer());
+                                break;
+                            case 1:
+                                viewPager.setPageTransformer(true, new AccordionTransformer());
+                                break;
+                            case 2:
+                                viewPager.setPageTransformer(true, new BackgroundToForegroundTransformer());
+                                break;
+                            case 3:
+                                viewPager.setPageTransformer(true, new CubeInTransformer());
+                                break;
+                            case 4:
+                                viewPager.setPageTransformer(true, new CubeOutTransformer());
+                                break;
+                            case 5:
+                                viewPager.setPageTransformer(true, new DepthPageTransformer());
+                                break;
+                            case 6:
+                                viewPager.setPageTransformer(true, new ForegroundToBackgroundTransformer());
+                                break;
+
+                            case 7:
+                                viewPager.setPageTransformer(true, new RotateDownTransformer());
+                                break;
+                            case 8:
+                                viewPager.setPageTransformer(true, new RotateUpTransformer());
+                                break;
+                            case 9:
+                                viewPager.setPageTransformer(true, new ScaleInOutTransformer());
+                                break;
+                            case 10:
+                                viewPager.setPageTransformer(true, new StackTransformer());
+                                break;
+                            case 11:
+                                viewPager.setPageTransformer(true, new TabletTransformer());
+                                break;
+                            case 12:
+                                viewPager.setPageTransformer(true, new ZoomOutSlideTransformer());
+                                break;
+                            case 13:
+                                viewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+                                break;
+                            case 14:
+                                viewPager.setPageTransformer(true, new ZoomOutTranformer());
+                                break;
+                            case 15:
+                                viewPager.setPageTransformer(true, new AlphaTransformer());
+                                break;
+                        }
+                        Toast.makeText(WebActivity.this, animNameList.get(postion), Toast.LENGTH_LONG).show();
+                        alert.dismiss();
+                    }
+                });
+                recyclerView.setAdapter(selectAnimDialogAdapter);
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -313,14 +320,12 @@ public class WebActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
-        // TODO Auto-generated method stub
         super.onRestart();
     }
 
 
     /**
      * 获取屏幕尺寸
-     * @return
      */
     private int getDensity() {
         DisplayMetrics metrics = new DisplayMetrics();

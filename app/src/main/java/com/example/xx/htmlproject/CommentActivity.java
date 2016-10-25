@@ -19,11 +19,11 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import Adapter.CommentAdapter;
-import App.MyActivityStackManager;
-import Data.Comment;
-import Data.MyUser;
-import RecycleViewAnimUtils.ScaleInAnimatorAdapter;
+import adapter.CommentAdapter;
+import app.MyActivityStackManager;
+import data.Comment;
+import data.MyUser;
+import recycleviewanimutils.ScaleInAnimatorAdapter;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
@@ -67,11 +67,14 @@ public class CommentActivity extends AppCompatActivity {
         alert=new AlertDialog.Builder(CommentActivity.this).create();
         alert.show();
         Window window=alert.getWindow();
-        window.setContentView(R.layout.comment_dialog_layout);
-        TextView textView= (TextView) window.findViewById(R.id.id_comment_dialog_text);
-        textView.setText("正在获取评论...");
+        if (window != null) {
+            window.setContentView(R.layout.comment_dialog_layout);
+            TextView textView= (TextView) window.findViewById(R.id.id_comment_dialog_text);
+            textView.setText("正在获取评论...");
+        }
 
-        BmobQuery<Comment> query=new BmobQuery<Comment>();
+
+        BmobQuery<Comment> query=new BmobQuery<>();
         query.addWhereEqualTo("newspaperId",NEWSPAPER_ID);
         query.order("-updatedAt");
         query.include("user");
@@ -114,7 +117,9 @@ public class CommentActivity extends AppCompatActivity {
         recyclerView= (RecyclerView) findViewById(R.id.id_comment_recyclerview);
         content= (EditText) findViewById(R.id.id_comment_edittext);
         send= (TextView) findViewById(R.id.id_comment_send);
-        send.setClickable(false);
+        if (send != null) {
+            send.setClickable(false);
+        }
 
         /**文本内容变更监听
          * */
@@ -150,7 +155,9 @@ public class CommentActivity extends AppCompatActivity {
                                 alert=new AlertDialog.Builder(CommentActivity.this).create();
                                 alert.show();
                                 Window window=alert.getWindow();
-                                window.setContentView(R.layout.comment_dialog_layout);
+                                if (window != null) {
+                                    window.setContentView(R.layout.comment_dialog_layout);
+                                }
 
                                 Comment comment = new Comment();
 
@@ -205,7 +212,7 @@ public class CommentActivity extends AppCompatActivity {
 
     private void refreshData() {
 
-        BmobQuery<Comment> query=new BmobQuery<Comment>();
+        BmobQuery<Comment> query=new BmobQuery<>();
         query.addWhereEqualTo("newspaperId",NEWSPAPER_ID);
         query.order("-updatedAt");
         query.include("user");
@@ -231,16 +238,19 @@ public class CommentActivity extends AppCompatActivity {
 
     private void initToolbar() {
         Toolbar toolbar= (Toolbar) findViewById(R.id.id_comment_toolbar);
-        toolbar.setTitle("评论");
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
-        toolbar.setNavigationIcon(R.drawable.back);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();//返回键结束当前页面
-            }
-        });
+        if (toolbar != null) {
+            toolbar.setTitle("评论");
+            toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+            toolbar.setNavigationIcon(R.drawable.back);
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();//返回键结束当前页面
+                }
+            });
+        }
+
     }
 
 }

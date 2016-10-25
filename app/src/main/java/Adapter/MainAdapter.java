@@ -1,4 +1,4 @@
-package Adapter;
+package adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -15,7 +15,7 @@ import com.example.xx.htmlproject.R;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import GsonBean.NewsPaperTypes;
+import gsonbean.NewsPaperTypes;
 
 /**
  * 主界面的适配器，主要是类型列表数据
@@ -45,8 +45,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view=mLayoutInflater.inflate(R.layout.main_item_layout,parent,false);//测试用card item layout
-        MyViewHolder myViewHolder=new MyViewHolder(view,recyitemonclick);
-        return myViewHolder;
+        return new MyViewHolder(view,recyitemonclick);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
         ImageView iv_cardview_bg;
         TextView tv_time;
         RecyItemOnclick recyItemOnclick;
-        public MyViewHolder(View itemView,RecyItemOnclick recyItemOnclick) {
+        MyViewHolder(View itemView, RecyItemOnclick recyItemOnclick) {
             super(itemView);
             tv_title= (TextView) itemView.findViewById(R.id.id_tv_title);
             iv_cardview_bg= (ImageView) itemView.findViewById(R.id.id_cardview_image);

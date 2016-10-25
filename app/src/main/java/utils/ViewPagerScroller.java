@@ -16,7 +16,7 @@ public class ViewPagerScroller extends Scroller {
  
     /**
      * 设置HTML页面切换速度
-     * @param duration
+     * @param duration 切换的时长
      */
     public void setScrollDuration(int duration){
         this.mScrollDuration = duration;

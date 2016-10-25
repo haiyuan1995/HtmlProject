@@ -1,4 +1,4 @@
-package Fragment;
+package fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -25,9 +25,6 @@ import com.example.xx.htmlproject.R;
  * 显示html5报刊的webview
  */
 public class WebFragment extends Fragment {
-    private WebView webView ;
-    private String url;//网页地址
-    private	int Density; //屏幕尺寸
     private ProgressBar mProgressBar;
     static Handler handler=new Handler();
     static Runnable runnable;
@@ -38,11 +35,11 @@ public class WebFragment extends Fragment {
         // TODO Auto-generated method stub
         View view = inflater.inflate(R.layout.webpager, container, false);
 
-        webView = (WebView) view.findViewById(R.id.wedview);
+        WebView webView = (WebView) view.findViewById(R.id.wedview);
         mProgressBar= (ProgressBar) view.findViewById(R.id.id_web_content_ProgressBar);
 
-        url = (String) this.getArguments().get("url");
-        Density = this.getArguments().getInt("Density");
+        String url = (String) this.getArguments().get("url");
+        int density = this.getArguments().getInt("Density");
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {//不使用系统浏览器浏览
@@ -66,13 +63,13 @@ public class WebFragment extends Fragment {
         /**
          * 按照不同设备的DPI来设置缩放比率
          * */
-        if (Density <= 240) {
+        if (density <= 240) {
             webSettings.setUseWideViewPort(true);
             webSettings.setLoadWithOverviewMode(true);
-        }else if (Density > 240&&Density <= 320) {
+        }else if (density > 240&& density <= 320) {
 
             webView.setInitialScale(50);//缩放等级
-        }else if (Density >=480) {
+        }else if (density >=480) {
 
             webView.setInitialScale(100);//缩放等级
         }
@@ -89,7 +86,7 @@ public class WebFragment extends Fragment {
         webSettings.setSupportZoom(true);//支持缩放
         //不显示webview缩放按钮
         webSettings.setDisplayZoomControls(false);
-        Log.i("scale",webView.getScale()+"");
+        Log.i("scale", webView.getScale()+"");
 
         //设置进度条
         webView.setWebChromeClient(new WebChromeClient(){
@@ -148,7 +145,7 @@ public class WebFragment extends Fragment {
 
         });
         webView.loadUrl(url);
-        Log.i("Fragment", "Fragment创建了");
+        Log.i("fragment", "Fragment创建了");
         handler.removeCallbacks(runnable);
         return view;
     }
@@ -159,7 +156,7 @@ public class WebFragment extends Fragment {
     public void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        Log.i("Fragment", "Fragment销毁了");
+        Log.i("fragment", "Fragment销毁了");
         handler.removeCallbacks(runnable);
     }
     /**

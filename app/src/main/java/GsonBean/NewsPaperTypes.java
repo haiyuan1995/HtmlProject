@@ -1,4 +1,4 @@
-package GsonBean;
+package gsonbean;
 
 import java.util.ArrayList;
 

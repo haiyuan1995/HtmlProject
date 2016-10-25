@@ -1,4 +1,4 @@
-package Adapter;
+package adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.example.xx.htmlproject.R;
 
-import GsonBean.SearchPages;
+import gsonbean.SearchPages;
 
 /**
  * 选择类型和改类型下报刊的适配器
@@ -40,8 +40,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view=mLayoutInflater.inflate(R.layout.search_newspaper_result_item_layout,parent,false);
-        MyViewHolder myViewHolder=new MyViewHolder(view,recyitemonclick);
-        return myViewHolder;
+        return new MyViewHolder(view,recyitemonclick);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         TextView tv_pages_num;
         TextView tv_time;
         RecyItemOnclick recyItemOnclick;
-        public MyViewHolder(View itemView,RecyItemOnclick recyItemOnclick) {
+        MyViewHolder(View itemView, RecyItemOnclick recyItemOnclick) {
             super(itemView);
             tv_name= (TextView) itemView.findViewById(R.id.id_search_all_item_name);
             tv_pages_num= (TextView) itemView.findViewById(R.id.id_search_all_item_pagesnum);

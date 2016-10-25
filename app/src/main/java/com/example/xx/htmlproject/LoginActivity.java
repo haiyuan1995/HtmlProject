@@ -12,8 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import App.MyActivityStackManager;
-import CustomView.CustomProgressDialog;
+import app.MyActivityStackManager;
+import customview.CustomProgressDialog;
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.SaveListener;

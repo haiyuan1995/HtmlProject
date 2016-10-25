@@ -1,4 +1,4 @@
-package CustomView.LoadingView;
+package customview.LoadingView;
 
 
 import android.animation.Animator;

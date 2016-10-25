@@ -28,19 +28,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Adapter.NewsPagesAdapter;
-import App.HtmlURL;
-import App.MyActivityStackManager;
-import App.MyApplication;
-import GsonBean.SearchData;
-import GsonBean.SearchPages;
-import RecycleViewAnimUtils.SlideInRightAnimatorAdapter;
+import adapter.NewsPagesAdapter;
+import app.HtmlURL;
+import app.MyActivityStackManager;
+import app.MyApplication;
+import gsonbean.SearchData;
+import gsonbean.SearchPages;
+import recycleviewanimutils.SlideInRightAnimatorAdapter;
 
 public class NewsPagesActivity extends AppCompatActivity implements NewsPagesAdapter.RecyItemOnclick{
 
     private RecyclerView mRecyclerView;
-    private NewsPagesAdapter mNewsPagesAdapter;
-    private TextView  toolbar_title;
     private RequestQueue mRequestQueue;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String NAME;
@@ -79,8 +77,7 @@ public class NewsPagesActivity extends AppCompatActivity implements NewsPagesAda
             }
 
             SimpleDateFormat timeFormat=new SimpleDateFormat("yyyy-MM/dd");//吧date数据转化为特定格式日期
-            String time=timeFormat.format(date);
-            DATE=time;
+            DATE= timeFormat.format(date);
 
         }
 
@@ -129,7 +126,7 @@ public class NewsPagesActivity extends AppCompatActivity implements NewsPagesAda
         else {
             String shortname = searchPages.getData().get(0).getShortname();
             /**拼接缩略图片地址**/
-            List<String> imageUrl = new ArrayList<String>();
+            List<String> imageUrl = new ArrayList<>();
 
             String time = searchPages.getData().get(0).getDate();
             int pages = Integer.parseInt(searchPages.getData().get(0).getPage());//返回页数
@@ -144,21 +141,24 @@ public class NewsPagesActivity extends AppCompatActivity implements NewsPagesAda
 
     private void initToolbar() {
         Toolbar toolbar= (Toolbar) findViewById(R.id.id_toolbar);
-        toolbar_title= (TextView) findViewById(R.id.toolbar_title);
-        toolbar.setTitle("");
-        toolbar_title.setText(NAME);
-        toolbar.setNavigationIcon(R.drawable.back);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();//返回键结束当前页面
-            }
-        });
+        TextView toolbar_title = (TextView) findViewById(R.id.toolbar_title);
+        if (toolbar != null) {
+            toolbar.setTitle("");
+            toolbar_title.setText(NAME);
+            toolbar.setNavigationIcon(R.drawable.back);
+            setSupportActionBar(toolbar);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();//返回键结束当前页面
+                }
+            });
+        }
+
     }
 
     private void initAdapter(SearchPages searchPages,ArrayList<String> imagesURL) {
-        mNewsPagesAdapter=new NewsPagesAdapter(NewsPagesActivity.this,searchPages,imagesURL,mRequestQueue);
+        NewsPagesAdapter mNewsPagesAdapter = new NewsPagesAdapter(NewsPagesActivity.this, searchPages, imagesURL, mRequestQueue);
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false));//设置单行卡片个数
 
@@ -181,7 +181,9 @@ public class NewsPagesActivity extends AppCompatActivity implements NewsPagesAda
     private void initView() {
         mRecyclerView= (RecyclerView) findViewById(R.id.id_recycleView);
         mSwipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.id_pages_swiperefrshlayout);
-        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        }
         // 下面几句代码是为了，第一次进入页面的时候显示加载进度条，setrefresh为true才显示
         mSwipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
@@ -214,7 +216,7 @@ public class NewsPagesActivity extends AppCompatActivity implements NewsPagesAda
          * @URLlist URL地址集合*/
 
 
-        List<String> URLlist=new ArrayList<String>();
+        List<String> URLlist=new ArrayList<>();
         String htmlURL;
         String newsPaperString=listData.get(0).getServeraddress()+"HTML/";
         String shortName=listData.get(0).getShortname()+"/";

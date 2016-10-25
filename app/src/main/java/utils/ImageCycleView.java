@@ -20,7 +20,7 @@ import com.example.xx.htmlproject.R;
 
 import java.util.ArrayList;
 
-import StartActivityAnim.DepthPageTransformer;
+import startactivityanim.DepthPageTransformer;
 
 /**
  *

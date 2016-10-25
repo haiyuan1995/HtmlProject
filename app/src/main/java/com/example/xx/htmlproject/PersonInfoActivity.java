@@ -23,26 +23,22 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 
-import App.MyActivityStackManager;
-import CustomView.CustomProgressDialog;
-import Data.MyUser;
-import Data.Person;
+import app.MyActivityStackManager;
+import customview.CustomProgressDialog;
+import data.MyUser;
+import data.Person;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
 
 public class PersonInfoActivity extends Activity implements OnClickListener{
-	private ScrollView scrollView;
 
     private CardView cardView;
 
     private ImageView imageView;
 
-	private TextView tv_person_cancle;
-	private TextView tv_person_ok;
-
-	private EditText et_person_nick;
+    private EditText et_person_nick;
 	private EditText et_person_sex;
 	private EditText et_person_age;
 	private EditText et_person_qianming;
@@ -274,14 +270,14 @@ public class PersonInfoActivity extends Activity implements OnClickListener{
 	}
 	private void initView() {
 		/**获取到scrollview的焦点**/
-		scrollView=(ScrollView) findViewById(R.id.scrollView);
+        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
 		scrollView.setFocusable(true);
 		scrollView.setFocusableInTouchMode(true);
 		scrollView.requestFocus();
 		scrollView.smoothScrollTo(0, 20);//返回顶部
 
-		tv_person_cancle=(TextView) findViewById(R.id.tv_person_cancle);
-		tv_person_ok=(TextView) findViewById(R.id.tv_person_ok);
+        TextView tv_person_cancle = (TextView) findViewById(R.id.tv_person_cancle);
+        TextView tv_person_ok = (TextView) findViewById(R.id.tv_person_ok);
 
 		et_person_nick=(EditText) findViewById(R.id.et_person_nick);
 		et_person_sex=(EditText) findViewById(R.id.et_person_sex);

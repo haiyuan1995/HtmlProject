@@ -1,4 +1,4 @@
-package Adapter;
+package adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.xx.htmlproject.R;
 
-import GsonBean.NewsPaper;
+import gsonbean.NewsPaper;
 
 /**
  * 搜索全部报刊的适配器
@@ -41,8 +41,7 @@ public class SearchAllNewsPaperAdapter extends RecyclerView.Adapter<SearchAllNew
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view=mLayoutInflater.inflate(R.layout.search_all_newspaper_item_layout,parent,false);
-        MyViewHolder myViewHolder=new MyViewHolder(view,recyitemonclick);
-        return myViewHolder;
+        return new MyViewHolder(view,recyitemonclick);
     }
 
     @Override
@@ -69,7 +68,7 @@ public class SearchAllNewsPaperAdapter extends RecyclerView.Adapter<SearchAllNew
         TextView tv_type;
         TextView tv_time;
         RecyItemOnclick recyItemOnclick;
-        public MyViewHolder(View itemView,RecyItemOnclick recyItemOnclick) {
+        MyViewHolder(View itemView, RecyItemOnclick recyItemOnclick) {
             super(itemView);
             tv_name= (TextView) itemView.findViewById(R.id.id_search_all_item_name);
             tv_type= (TextView) itemView.findViewById(R.id.id_search_all_item_type);

@@ -19,7 +19,7 @@
  *   limitations under the License.
  *  *****************************************************************************
  */
-package RecycleViewAnimUtils;
+package recycleviewanimutils;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;

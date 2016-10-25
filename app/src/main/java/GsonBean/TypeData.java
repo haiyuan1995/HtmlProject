@@ -1,4 +1,4 @@
-package GsonBean;
+package gsonbean;
 
 /**
  * 类型数据接收
