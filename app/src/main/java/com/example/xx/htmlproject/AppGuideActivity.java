@@ -65,7 +65,6 @@ public class AppGuideActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 				startActivity(intent);
 				finish();
@@ -95,13 +94,11 @@ public class AppGuideActivity extends Activity {
 
 			@Override
 			public boolean isViewFromObject(View view, Object object) {
-				// TODO Auto-generated method stub
 				return view == object;
 			}
 
 			@Override
 			public int getCount() {
-				// TODO Auto-generated method stub
 				return mImgIds.length;
 			}
 		});
@@ -109,7 +106,6 @@ public class AppGuideActivity extends Activity {
 
 			@Override
 			public void onPageSelected(int position) {
-				// TODO Auto-generated method stub
 				if (position == (mImgIds.length-1)) {
 					startApp.setVisibility(View.VISIBLE);
 				}else {
@@ -120,13 +116,11 @@ public class AppGuideActivity extends Activity {
 
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
 
 			}
 		});

@@ -215,6 +215,7 @@ public class WebActivity extends AppCompatActivity {
             if (window != null) {
                 window.setContentView(R.layout.demand_popup_select);
                 window.setGravity(Gravity.BOTTOM);//设置弹窗位置
+//                window.getDecorView().setPadding(0,0,0,0);//设置弹窗的padding
                 WindowManager.LayoutParams params=window.getAttributes();
                 params.width= ViewGroup.LayoutParams.MATCH_PARENT;
                 params.height=ViewGroup.LayoutParams.WRAP_CONTENT;

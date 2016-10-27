@@ -200,7 +200,7 @@ public class NewsPagesActivity extends AppCompatActivity implements NewsPagesAda
                         getData();
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
-                },2000);
+                },1500);
             }
         });
 

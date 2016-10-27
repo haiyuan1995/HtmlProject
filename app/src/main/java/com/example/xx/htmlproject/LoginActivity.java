@@ -136,7 +136,6 @@ public class LoginActivity extends AppCompatActivity {
                                 if (activity.equals("CommentActivity")) {
                                     finish();//返回评论界面
                                 }else {
-
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();//返回主界面
@@ -148,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
                                 pd.dismiss();
                                 Toast.makeText(LoginActivity.this, "请检查你的账号密码或网络情况！", Toast.LENGTH_LONG).show();
                             }
-
                         });
                         try {
                             Thread.sleep(1000);
@@ -179,7 +177,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void initView() {

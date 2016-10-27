@@ -29,7 +29,7 @@
     </style>
 
     <!-- 切换效果dialog动画-->
-    <style name="dialog_menu_anim" >
+    <style name="dialog_menu_anim" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/dialog_menu_in</item>
         <item name="android:windowExitAnimation">@anim/dialog_menu_out</item>
     </style>

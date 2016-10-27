@@ -32,7 +32,6 @@ public class WebFragment extends Fragment {
     @SuppressLint({"NewApi", "SetJavaScriptEnabled" }) @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         View view = inflater.inflate(R.layout.webpager, container, false);
 
         WebView webView = (WebView) view.findViewById(R.id.wedview);

@@ -1,4 +1,4 @@
-package WebAnim;
+package webanim;
 
 import android.view.View;
 

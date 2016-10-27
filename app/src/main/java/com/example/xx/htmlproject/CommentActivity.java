@@ -1,5 +1,6 @@
 package com.example.xx.htmlproject;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,13 +22,13 @@ import java.util.List;
 
 import adapter.CommentAdapter;
 import app.MyActivityStackManager;
-import data.Comment;
-import data.MyUser;
-import recycleviewanimutils.ScaleInAnimatorAdapter;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
+import data.Comment;
+import data.MyUser;
+import recycleviewanimutils.ScaleInAnimatorAdapter;
 import utils.HideKeyBoard;
 
 /**
@@ -85,7 +86,6 @@ public class CommentActivity extends AppCompatActivity {
 
                 if (list.isEmpty())
                 {
-
                     Snackbar.make(recyclerView,"没有评论哦!",Snackbar.LENGTH_LONG).show();
                     alert.dismiss();
                 }
@@ -145,10 +145,11 @@ public class CommentActivity extends AppCompatActivity {
 //                            Toast.makeText(CommentActivity.this,"send",Toast.LENGTH_LONG).show();
                             if (BmobUser.getCurrentUser(CommentActivity.this)==null)
                             {
-//                                //用户没有登录，跳转到登录界面
-//                                Intent intent=new Intent(CommentActivity.this,LoginActivity.class);
-//                                intent.putExtra("activity","CommentActivity");
-//                                startActivity(intent);
+                                //用户没有登录，跳转到登录界面
+                                Intent intent=new Intent(CommentActivity.this,LoginActivity.class);
+                                intent.putExtra("activity","CommentActivity");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
                                 Toast.makeText(CommentActivity.this,"请先到首页进行登录!",Toast.LENGTH_LONG).show();
                             }else {
 
@@ -250,7 +251,5 @@ public class CommentActivity extends AppCompatActivity {
                 }
             });
         }
-
     }
-
 }
